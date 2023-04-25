@@ -1,0 +1,15 @@
+name: CloudCustomItems
+version: 1.0
+api-version: 1.19
+description: Sams custom items plugin for cloudy
+main: me.Sam.customitems.CustomItems
+depend:
+  - mcMMO
+  - CoreProtect
+  - Vault
+  - MagicCarpet
+  - WorldGuard
+  - WorldEdit
+commands:
+  givecustomitem:
+  givemoneypouch:
