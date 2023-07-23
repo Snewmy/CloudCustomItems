@@ -77,6 +77,13 @@
             <systemPath>C:/Users/snewm/Downloads/MagicCarpet.jar</systemPath>
         </dependency>
         <dependency>
+            <groupId>com.sample42</groupId>
+            <artifactId>sample42</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>C:/Users/snewm/Downloads/Jobs5.2.0.0.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>com.sample6</groupId>
             <artifactId>sample6</artifactId>
             <version>1.0</version>

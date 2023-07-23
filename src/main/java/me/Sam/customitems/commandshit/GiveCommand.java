@@ -1,6 +1,7 @@
 package me.Sam.customitems.commandshit;
 
 import me.Sam.customitems.CustomItems;
+import me.Sam.customitems.Locale;
 import me.Sam.customitems.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -17,22 +18,22 @@ public class GiveCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (cmd.getName().equalsIgnoreCase("givecustomitem")) {
                 if (!sender.hasPermission("cloudcustomitems.givecustomitem")) {
-                    sender.sendMessage(Utils.chat("&cNo Permission."));
+                    sender.sendMessage(Utils.chat(Locale.instance.get("nopermission")));
                     return false;
                 }
                 if (args.length < 1) {
-                    sender.sendMessage(Utils.chat("&cNot enough arguments. /givecustomitem itemname playername"));
+                    sender.sendMessage(Utils.chat(Locale.instance.get("notenoughargs")));
                     return false;
                 }
                 String customItemName = args[0];
                 if (!CustomItems.customItems.containsKey(customItemName)) {
-                    sender.sendMessage(Utils.chat("&cNot a valid custom item."));
+                    sender.sendMessage(Utils.chat(Locale.instance.get("notvaliditem")));
                     return false;
                 }
                 ItemStack customItem = CustomItems.customItems.get(customItemName).getItemStack();
                 String playerName = args.length == 1 ? sender.getName() : args[1];
                 if (Bukkit.getPlayer(playerName) == null) {
-                    sender.sendMessage(Utils.chat("&cNot a valid player!"));
+                    sender.sendMessage(Utils.chat(Locale.instance.get("notvalidplayer")));
                     return false;
                 }
                 Player receiver = Bukkit.getPlayer(playerName);
@@ -40,8 +41,8 @@ public class GiveCommand implements CommandExecutor {
                 if (!leftoverItems.isEmpty()) {
                     receiver.getWorld().dropItemNaturally(receiver.getLocation(), customItem);
                 }
-                receiver.sendMessage(Utils.chat(Utils.prefix + "&7You have received {#56eafa}1x " + customItem.getItemMeta().getDisplayName() + "&7!"));
-                sender.sendMessage(Utils.chat(Utils.prefix + "&7You gave " + receiver.getName() + " {#56eafa}1x " + customItem.getItemMeta().getDisplayName() + "&7!"));
+                receiver.sendMessage(Utils.chat(Locale.instance.get("receivemessage").replace("%itemname%", customItem.getItemMeta().getDisplayName())));
+                sender.sendMessage(Utils.chat(Locale.instance.get("gavemessage").replace("%receivername%", receiver.getName()).replace("%itemname%", customItem.getItemMeta().getDisplayName())));
         }
         return false;
     }

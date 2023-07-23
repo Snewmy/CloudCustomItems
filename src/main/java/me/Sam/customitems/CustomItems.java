@@ -2,15 +2,14 @@ package me.Sam.customitems;
 
 import com.gmail.nossr50.mcMMO;
 import me.Sam.customitems.Listeners.*;
-import me.Sam.customitems.commandshit.GiveCommand;
-import me.Sam.customitems.commandshit.GiveMoneyPouch;
-import me.Sam.customitems.commandshit.GiveMoneyTab;
-import me.Sam.customitems.commandshit.GiveTab;
+import me.Sam.customitems.commandshit.*;
 import me.Sam.customitems.items.*;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -20,6 +19,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class CustomItems extends JavaPlugin {
@@ -30,9 +30,14 @@ public class CustomItems extends JavaPlugin {
     public CoreProtectAPI coreApi;
     public NamespacedKey nameKey = new NamespacedKey(this, "customitems");
     public static Economy econ = null;
+    public File messagesFile;
+    public FileConfiguration messages;
 
     public void onEnable() {
         instance = this;
+        saveResource("messages.yml", false);
+        messagesFile = new File(getDataFolder(), "messages.yml");
+        messages = YamlConfiguration.loadConfiguration(messagesFile);
         PluginManager pm = getServer().getPluginManager();
         getServer().getLogger().info("Custom Items Enabled.");
         if (!this.setupEconomy()) {
@@ -51,14 +56,16 @@ public class CustomItems extends JavaPlugin {
         pm.registerEvents(new LaunchProjectile(), this);
         pm.registerEvents(new PlayerItemDamage(), this);
         pm.registerEvents(new RenameListener(), this);
-        pm.registerEvents(new MoneyPouch(), this);
         pm.registerEvents(new CauldronLevelChange(), this);
         pm.registerEvents(new InventoryClick(), this);
         pm.registerEvents(new PlayerInteractEntity(), this);
+        if (pm.getPlugin("Jobs") != null) {
+            pm.registerEvents(new JobsListener(), this);
+        }
         getCommand("givecustomitem").setExecutor(new GiveCommand());
         getCommand("givecustomitem").setTabCompleter(new GiveTab());
-        getCommand("givemoneypouch").setExecutor(new GiveMoneyPouch());
-        getCommand("givemoneypouch").setTabCompleter(new GiveMoneyTab());
+        getCommand("customitems").setExecutor(new CustomItemsCommand());
+        getCommand("customitems").setTabCompleter(new CustomItemsTab());
         if (pm.getPlugin("mcMMO") != null) {
             this.mcmmo = (mcMMO) pm.getPlugin("mcMMO");
         }
@@ -66,7 +73,7 @@ public class CustomItems extends JavaPlugin {
         if (coreApi != null) { //Ensure we have access to the API
             coreApi.testAPI(); //Will print out "[CoreProtect] API Test Successful." in the console.
         }
-        CustomItem arrowBlaster = new ArrowBlaster("arrowblaster");
+        //CustomItem arrowBlaster = new ArrowBlaster("arrowblaster");
         CustomItem biggerInfiniteSponge = new BiggerInfiniteSponge("biggerinfinitesponge");
         CustomItem diggersShovel = new DiggersShovel("diggersshovel");
         CustomItem endlessTorches = new EndlessTorches("endlesstorches");
@@ -90,6 +97,7 @@ public class CustomItems extends JavaPlugin {
         CustomItem infinitesnowball = new InfiniteSnowball("infinitesnowball");
         CustomItem endlessPumpkinPie = new EndlessPumpkinPie("endlesspumpkinpie");
         CustomItem bottomlesspowdersnow = new BottomlessPowderSnow("bottomlesspowdersnow");
+        new Locale();
     }
 
     public ItemStack handCheck(Player p, String nbtTag) {

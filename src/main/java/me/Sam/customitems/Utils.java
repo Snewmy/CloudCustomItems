@@ -9,8 +9,6 @@ public class Utils {
     public static final Pattern patternBrackets = Pattern.compile("\\{#[0-9a-fA-F]{6}\\}");
     public static final Pattern pattern = Pattern.compile("#[0-9a-fA-F]{6}");
 
-    public static final String prefix = "{#00ddfb}&lC{#56eafa}&ll{#abf7f9}&lo{#b9f1f3}&lu{#80dae8}&ld{#46c3de}&ly &8&l≫ ";
-
     public Utils() {
     }
 

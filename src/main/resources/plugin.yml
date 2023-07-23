@@ -10,6 +10,9 @@ depend:
   - MagicCarpet
   - WorldGuard
   - WorldEdit
+softdepend:
+  - Jobs
 commands:
   givecustomitem:
   givemoneypouch:
+  customitems:

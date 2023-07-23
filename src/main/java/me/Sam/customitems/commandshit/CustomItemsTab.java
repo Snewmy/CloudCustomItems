@@ -15,15 +15,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class GiveMoneyTab implements TabCompleter {
+public class CustomItemsTab implements TabCompleter {
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         List<String> commands = new ArrayList<>();
         if (args.length == 1) {
-            for(Player player : CustomItems.instance.getServer().getOnlinePlayers()){
-                commands.add(player.getName());
-            }
+            commands.add("reload");
             StringUtil.copyPartialMatches(args[0], commands, completions);
         }
         Collections.sort(completions);
