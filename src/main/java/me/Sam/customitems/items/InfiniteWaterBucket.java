@@ -2,6 +2,7 @@ package me.Sam.customitems.items;
 
 import me.Sam.customitems.CustomItems;
 import me.Sam.customitems.ItemBuilder;
+import me.Sam.customitems.Locale;
 import me.Sam.customitems.Utils;
 import net.minecraft.world.level.block.CauldronBlock;
 import org.bukkit.Material;
@@ -13,10 +14,12 @@ import org.bukkit.block.data.type.Slab;
 import org.bukkit.block.data.type.Stairs;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,6 +27,20 @@ public class InfiniteWaterBucket extends CustomItem {
     public InfiniteWaterBucket(String name) {
         super(name);
         this.itemStack = new ItemBuilder(Material.WATER_BUCKET, 1, Utils.chat("{#56eafa}&l► &7&oInfinitely places water without"), Utils.chat("&7&oconsumption of the water bucket.")).setDisplayName(Utils.chat("&7&l☁ {#56eafa}&lInfinite Water Bucket &7&l☁")).addEnchants(Enchantment.DURABILITY, 10).addItemFlag(ItemFlag.HIDE_ENCHANTS).addPersistentDataString("infinitewaterbucket").toItemStack();
+    }
+
+    @Override
+    public void onInteract(PlayerInteractEvent event) {
+        Player p = event.getPlayer();
+        ItemStack hand = CustomItems.instance.handCheck(event.getPlayer(), "infinitewaterbucket");
+        if (hand == null) {
+            return;
+        }
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (event.getClickedBlock().getType() == Material.FLOWER_POT) {
+                p.sendMessage(Utils.chat(Locale.instance.get("nogrowstations")));
+            }
+        }
     }
 
     @Override
@@ -45,6 +62,10 @@ public class InfiniteWaterBucket extends CustomItem {
             return;
         }
         event.setCancelled(true);
+        if (event.getBlockClicked().getType() == Material.FLOWER_POT) {
+            p.sendMessage(Utils.chat(Locale.instance.get("nogrowstations")));
+            return;
+        }
         if (event.getBlockClicked().getBlockData() instanceof Slab) {
             Slab slab = (Slab) event.getBlockClicked().getBlockData();
             slab.setWaterlogged(true);

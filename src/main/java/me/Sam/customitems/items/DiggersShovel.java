@@ -29,7 +29,7 @@ public class DiggersShovel extends CustomItem{
 
     public DiggersShovel(String name) {
         super(name);
-        this.itemStack = new ItemBuilder(Material.DIAMOND_SHOVEL, 1, Utils.chat("{#56eafa}&l► &7&oBreaks in a 3x3 area"), Utils.chat("&7&oaround the block being"), Utils.chat("&7&obroken.")).setDisplayName(Utils.chat("&7&l☁ {#56eafa}&lDigger's Shovel &7&l☁")).addPersistentDataString("diggersshovel").toItemStack();
+        this.itemStack = new ItemBuilder(Material.DIAMOND_SHOVEL, 1, Utils.chat("{#56eafa}&l► &7&oBreaks in a 3x3 area"), Utils.chat("&7&oaround the block being"), Utils.chat("&7&obroken."), Utils.chat("&cWarning&7: &7&odoes not activate"), Utils.chat("&7&omcmmo or jobs on purpose")).setDisplayName(Utils.chat("&7&l☁ {#56eafa}&lDigger's Shovel &7&l☁")).addPersistentDataString("diggersshovel").toItemStack();
     }
 
     @Override
@@ -117,12 +117,14 @@ public class DiggersShovel extends CustomItem{
         if (!breakableBlock(block)) {
             return;
         }
+        /*
         BlockBreakEvent fakeEvent = new BlockBreakEvent(block, player);
         Bukkit.getPluginManager().callEvent(fakeEvent);
         if (fakeEvent.isCancelled()) {
             return; // fake event cancelled
         }
         handlemcMMODrops(block, tool);
+        */
         block.breakNaturally(tool);
     }
 

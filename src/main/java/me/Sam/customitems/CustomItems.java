@@ -60,7 +60,7 @@ public class CustomItems extends JavaPlugin {
         pm.registerEvents(new InventoryClick(), this);
         pm.registerEvents(new PlayerInteractEntity(), this);
         if (pm.getPlugin("Jobs") != null) {
-            pm.registerEvents(new JobsListener(), this);
+            //pm.registerEvents(new JobsListener(), this);
         }
         getCommand("givecustomitem").setExecutor(new GiveCommand());
         getCommand("givecustomitem").setTabCompleter(new GiveTab());

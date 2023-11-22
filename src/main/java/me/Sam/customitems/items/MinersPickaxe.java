@@ -24,7 +24,8 @@ import java.util.Set;
 public class MinersPickaxe extends CustomItem{
     public MinersPickaxe(String name) {
         super(name);
-        this.itemStack = new ItemBuilder(Material.DIAMOND_PICKAXE, 1, Utils.chat("{#56eafa}&l► &7&oBreaks in a 3x3 area"), Utils.chat("&7&oaround the block being"), Utils.chat("&7&obroken.")).setDisplayName(Utils.chat("&7&l☁ {#56eafa}&lMiner's Pickaxe &7&l☁")).addPersistentDataString("minerspickaxe").toItemStack();
+        this.itemStack = new ItemBuilder(Material.DIAMOND_PICKAXE, 1, Utils.chat("{#56eafa}&l► &7&oBreaks in a 3x3 area"), Utils.chat("&7&oaround the block being"), Utils.chat("&7&obroken."), Utils.chat("&cWarning&7: &7&odoes not activate"), Utils.chat("&7&omcmmo or jobs on purpose")).setDisplayName(Utils.chat("&7&l☁ {#56eafa}&lMiner's Pickaxe &7&l☁")).addPersistentDataString("minerspickaxe").toItemStack();
+
     }
     public static final Set<Player> breakingBlocks = new HashSet<>();
     public final static String BONUS_DROPS_METAKEY = "mcMMO: Double Drops";
@@ -60,12 +61,15 @@ public class MinersPickaxe extends CustomItem{
         if (!breakableBlock(block)) {
             return;
         }
+        /*
         BlockBreakEvent fakeEvent = new BlockBreakEvent(block, player);
         Bukkit.getPluginManager().callEvent(fakeEvent);
         if (fakeEvent.isCancelled()) {
             return; // fake event cancelled
         }
-        handlemcMMODrops(block, tool);
+
+         */
+        //handlemcMMODrops(block, tool);
         block.breakNaturally(tool);
     }
 

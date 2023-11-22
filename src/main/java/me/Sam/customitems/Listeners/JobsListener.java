@@ -15,5 +15,6 @@ public class JobsListener implements Listener {
         if (MinersPickaxe.breakingBlocks.contains(player) || DiggersShovel.breakingBlocks.contains(player)) {
             event.setCancelled(true);
         }
+
     }
 }
